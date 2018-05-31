@@ -13,3 +13,4 @@
 #include "MouseControl.h"
 #include "TowerPlace.h"
 #include "TrajectoryComponent.h"
+#include "Shadow.h"

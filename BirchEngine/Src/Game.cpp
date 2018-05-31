@@ -26,7 +26,6 @@ int Game::checkPointCount = 7;
 int Game::trajectorys[16][2];
 
 auto& player(manager.addEntity());
-auto& label(manager.addEntity());
 auto& moneyLabel(manager.addEntity());
 auto& expLabel(manager.addEntity());
 auto& healthLabel(manager.addEntity());
@@ -266,6 +265,8 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 			assets->AddTexture("soldier1", "Assets/tiles/64/enemies/e_soldier1_tile.png");
 			assets->AddTexture("plane1", "Assets/tiles/64/enemies/e_plane1_tile.png");
 			assets->AddTexture("plane2", "Assets/tiles/64/enemies/e_plane2_tile.png");
+			assets->AddTexture("planeShd1", "Assets/tiles/64/enemies/sh_plane1_tile.png");
+			assets->AddTexture("planeShd2", "Assets/tiles/64/enemies/sh_plane2_tile.png");
 	}
 	
 	
@@ -306,16 +307,14 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	player.addGroup(G_Enemies);
 
 	SDL_Color color = { 255, 255, 255, 255 };
-	label.addComponent<UILabel>(10, 10, "", "Future", color);
-	label.addGroup(G_Labels);
 	color = { 0, 0, 0, 255 };
-	moneyLabel.addComponent<UILabel>(10, 1025, "", "Future", color);
+	moneyLabel.addComponent<UILabel>(10, 1030, "", "Future", color);
 	moneyLabel.addGroup(G_Labels);
 	color = { 0, 0, 255, 255 };
-	expLabel.addComponent<UILabel>(450, 1025, "", "Future", color);
+	expLabel.addComponent<UILabel>(450, 1030, "", "Future", color);
 	expLabel.addGroup(G_Labels);
 	color = { 255, 0, 0, 255 };
-	healthLabel.addComponent<UILabel>(1600, 1025, "", "Future", color);
+	healthLabel.addComponent<UILabel>(1600, 1030, "", "Future", color);
 	healthLabel.addGroup(G_Labels);
 
 
@@ -331,6 +330,7 @@ auto& towers(manager.getGroup(Game::G_Towers));
 auto& projectiles(manager.getGroup(Game::G_Projectiles));
 auto& colliders(manager.getGroup(Game::G_Colliders));
 auto& labels(manager.getGroup(Game::G_Labels));
+auto& shadows(manager.getGroup(Game::G_Shadows));
 
 void Game::handleEvents()
 {
@@ -416,6 +416,8 @@ void Game::render()
 		t->draw();
 	for (auto& d : decor)
 		d->draw();
+	for (auto& s : shadows)
+		s->draw();
 	for (auto& e : enemies)
 		e->draw();
 	for (auto& t : towers)

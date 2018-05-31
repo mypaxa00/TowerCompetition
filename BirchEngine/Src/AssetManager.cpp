@@ -159,12 +159,16 @@ void AssetManager::CreateEnemy(EnemyType enemy)
 	case AssetManager::E_Plane1:
 		en.addComponent<SpriteComponent>("plane1");
 		en.getComponent<TransformComponent>().speed = 3;
+		en.getComponent<TransformComponent>().scale = 1.1;
 		en.addComponent<HealthComponent>(manager, 90);
+		en.addComponent<Shadow>(manager, "planeShd1");
 		break;
 	case AssetManager::E_Plane2:
 		en.addComponent<SpriteComponent>("plane2");
 		en.getComponent<TransformComponent>().speed = 5;
+		en.getComponent<TransformComponent>().scale = 1.1;
 		en.addComponent<HealthComponent>(manager, 100);
+		en.addComponent<Shadow>(manager, "planeShd2");
 		break;
 	default:
 		break;

@@ -10,36 +10,36 @@ public:
 
 	std::string id;
 	float * angle;
-	SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 	Shadow() = default;
 
-	Shadow(std::string id) : id(id) {}
+	Shadow(Manager * man, std::string id) : id(id), man(man) {}
 
 	~Shadow() {
-	}
-
-	void setTex(std::string id) {
-		this->id = id;
-		texture = Game::assets->GetTexture(id);
+		sh->destroy();
 	}
 
 	void init() override {
-		setTex(id);
+		sh = &man->addEntity();
 		angle = &entity->getComponent<SpriteComponent>().angle;
-		dest = &entity->getComponent<SpriteComponent>().getDestRect;
-		transform = &entity->getComponent<TransformComponent>();
-		src.h = transform->height / transform->scale;
-		src.w = transform->width / transform->scale;
-		src.x = src.y = 0;
+		transform = &entity->getComponent<TransformComponent>().position;
+		sh->addComponent<TransformComponent>();
+		sh->addComponent<SpriteComponent>(id);
+		sprite = &sh->getComponent<SpriteComponent>();
+		position = &sh->getComponent<TransformComponent>().position;
+		sh->addGroup(Game::G_Shadows);
 	}
 
-	void draw() override {
-		TextureManager::Draw(texture, src, *dest, flip, *angle);
+	void update() override {
+		position->x = 10 + transform->x;
+		position->y = 10 + transform->y;
+		sprite->angle = *angle;
 	}
 
 private:
-	TransformComponent * transform;
-	SDL_Texture *texture;
-	SDL_Rect src, * dest;
+	Entity * sh;
+	SpriteComponent * sprite;
+	Vector2D * transform;
+	Vector2D * position;
+	Manager * man;
 };

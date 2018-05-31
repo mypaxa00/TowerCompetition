@@ -40,7 +40,8 @@ public:
 		G_Enemies,
 		G_Colliders,
 		G_Projectiles,
-		G_Labels
+		G_Labels,
+		G_Shadows
 	};
 
 	static int health;
