@@ -44,7 +44,8 @@ public:
 			distance = sqrt(pow(curPos->x - startPos.x, 2) + pow(curPos->y - startPos.y, 2));
 
 			if (distance > range)
-			{
+			{	
+				entity->delGroup(Game::G_Projectiles);
 				entity->destroy();
 			}
 		}

@@ -16,9 +16,7 @@ AssetManager::~AssetManager()
 Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, std::string text, ButtonColor color) {
 	SDL_Color white = { 255, 255, 255, 255 };
 	auto& button(manager->addEntity());
-	button.addComponent<TransformComponent>(posX, posY, 1, width);
-	button.getComponent<TransformComponent>().height = height;
-	button.addComponent<UILabel>(posX + 3, posY + 3, text, "Blocks", white);
+	button.addComponent<TransformComponent>(posX, posY, 1, width, height);
 	switch (color)
 	{
 	case B_Blue:
@@ -44,6 +42,7 @@ Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, s
 	default:
 		break;
 	}
+	button.addComponent<UILabel>(posX + 3, posY + 3, text, "Blocks", white);
 	button.addGroup(Game::G_Labels);
 	return &button;
 }

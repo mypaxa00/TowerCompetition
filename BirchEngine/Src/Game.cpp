@@ -243,6 +243,8 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		//Other Textures
 		if(true){
 			assets->AddTexture("hud_bg", "Assets/ui/grey_button15.png");
+			assets->AddTexture("button_green", "Assets/ui/green_button04.png");
+			assets->AddTexture("button_pressed_green", "Assets/ui/green_button05.png");
 			assets->AddTexture("button_blue", "Assets/ui/blue_button00.png");
 			assets->AddTexture("button_pressed_blue", "Assets/ui/blue_button01.png");
 			assets->AddTexture("selection", "Assets/tiles/64/selection.png");
@@ -274,7 +276,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		{
 		assets->AddFont("Future18", "Assets/Fonts/Kenney Future.ttf", 18);
 		assets->AddFont("Future", "Assets/Fonts/Kenney Future.ttf", 36);
-		assets->AddFont("Blocks", "Assets/Fonts/DS Stamper.ttf", 10);
+		assets->AddFont("Blocks", "Assets/Fonts/Alphamalemodern.ttf", 25);
 		assets->AddFont("Square25", "Assets/Fonts/Kenney High Square.ttf", 25);
 		assets->AddFont("Rocket", "Assets/Fonts/Kenney Rocket Square.ttf", 45);
 		assets->AddFont("Mini", "Assets/Fonts/Kenney Mini.ttf", 45);
@@ -304,7 +306,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	player.addComponent<ColliderComponent>("player", 32, 32);
 	player.addComponent<HealthComponent>(&manager, 100);
 	player.addComponent<LineComponent>(&manager);
-	player.addGroup(G_Enemies);
+	player.addGroup(G_Players);
 
 	SDL_Color color = { 255, 255, 255, 255 };
 	color = { 0, 0, 0, 255 };
@@ -317,18 +319,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	healthLabel.addComponent<UILabel>(1600, 1030, "", "Future", color);
 	healthLabel.addGroup(G_Labels);
 
-/*	//assets->CreateTowerPlace(Vector2D(64 * 8, 64 * 6), );
-	assets->CreateTowerPlace(Vector2D(64 * 10, 64 * 6), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 8, 64 * 9), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 3, 64 * 11), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 8, 64 * 14), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 16, 64 * 14), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 10, 64 * 9), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 15, 64 * 9), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 15, 64 * 4), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 18, 64 * 9), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 21, 64 * 9), "tower_place_grass");
-	assets->CreateTowerPlace(Vector2D(64 * 26, 64 * 11), "tower_place_grass");*/
+	assets->CreateButton(700, 1030, 230, 45, " INCREASE MONEY", AssetManager::B_Green);
 }
 
 auto& tiles = manager.getGroup(Game::G_Map);
@@ -362,6 +353,9 @@ void Game::handleEvents()
 	case SDL_KEYDOWN:
 		switch (Game::event.key.keysym.sym)
 		{
+		case SDLK_BACKSPACE:
+			player.addGroup(Game::G_Enemies);
+			break;
 		case SDLK_1:
 			assets->CreateEnemy(AssetManager::E_Soldier1);
 			break;

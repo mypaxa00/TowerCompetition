@@ -28,7 +28,7 @@ public:
 			fireRate = 250;
 			break;
 		case AssetManager::Tw_RocketLauncher:
-			fireRate = 2500;
+			fireRate = 2000;
 			break;
 		default:
 			break;
