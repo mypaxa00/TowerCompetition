@@ -81,7 +81,7 @@ void AssetManager::CreateTower(Vector2D pos, TowersType type, int range, float s
 	tower.addGroup(Game::G_Towers);
 }
 
-Entity * AssetManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, float speed, ShotType bull, float* ang, Vector2D* enemy)
+Entity * AssetManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, float speed, ShotType bull, float* ang, Entity* enemy)
 {
 	auto& projectile(manager->addEntity());
 	switch (bull)

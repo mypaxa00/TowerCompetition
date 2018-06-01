@@ -92,9 +92,9 @@ public:
 				break;
 			case AssetManager::Tw_RocketLauncher:
 				if (level < 4)
-					bullet = asset->CreateProjectile(position, vel, range, speed, AssetManager::Sh_Rocket1, angle);
+					bullet = asset->CreateProjectile(position, vel, range, speed, AssetManager::Sh_Rocket1, angle, curEnemy);
 				else
-					bullet = asset->CreateProjectile(position, vel, range, speed, AssetManager::Sh_Rocket2, angle);
+					bullet = asset->CreateProjectile(position, vel, range, speed, AssetManager::Sh_Rocket2, angle, curEnemy);
 				break;
 			default:
 				break;

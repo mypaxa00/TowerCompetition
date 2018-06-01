@@ -55,7 +55,7 @@ public:
 
 	void CreateTower(Vector2D pos, TowersType type, int range, float speed, int lvl = 1);
 
-	Entity * CreateProjectile(Vector2D pos, Vector2D vel, int range, float speed, ShotType bull, float* ang = NULL, Vector2D* enemy = NULL);
+	Entity * CreateProjectile(Vector2D pos, Vector2D vel, int range, float speed, ShotType bull, float* ang = NULL, Entity* enemy = NULL);
 
 	void CreateEnemy(EnemyType enemy = E_Soldier1);
 
