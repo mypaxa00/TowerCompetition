@@ -66,7 +66,7 @@ private:
 			return;
 		}
 		if (Game::money >= 175 && mouse->pressed2) {
-			asset->CreateTower(pos, AssetManager::Tw_RocketLauncher, 350, 4);
+			asset->CreateTower(pos, AssetManager::Tw_RocketLauncher, 350, 7);
 			Game::money -= 175;
 			clearButtons(true);
 			return;

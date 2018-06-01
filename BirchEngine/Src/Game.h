@@ -51,7 +51,7 @@ public:
 	static std::string map;
 	static std::string decorations;
 	static std::string trajectory;
-	static int trajectorys[16][2];
+	static int trajectorys[32][2];
 	static int checkPointCount;
 
 private:

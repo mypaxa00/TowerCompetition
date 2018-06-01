@@ -20,10 +20,10 @@ float Game::money = 1000;
 int Game::exp = 0;
 int Game::moneySpeed = 1;
 std::string Game::map = "Assets/maps/map.map";
-std::string Game::decorations = "Assets/maps/decorations.map";
+std::string Game::decorations = "Assets/maps/decoration.map";
 std::string Game::trajectory = "Assets/maps/trajectory.map";
+int Game::trajectorys[32][2];
 int Game::checkPointCount = 7;
-int Game::trajectorys[16][2];
 
 auto& player(manager.addEntity());
 auto& moneyLabel(manager.addEntity());
@@ -317,10 +317,18 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	healthLabel.addComponent<UILabel>(1600, 1030, "", "Future", color);
 	healthLabel.addGroup(G_Labels);
 
-
+/*	//assets->CreateTowerPlace(Vector2D(64 * 8, 64 * 6), );
+	assets->CreateTowerPlace(Vector2D(64 * 10, 64 * 6), "tower_place_grass");
 	assets->CreateTowerPlace(Vector2D(64 * 8, 64 * 9), "tower_place_grass");
+	assets->CreateTowerPlace(Vector2D(64 * 3, 64 * 11), "tower_place_grass");
+	assets->CreateTowerPlace(Vector2D(64 * 8, 64 * 14), "tower_place_grass");
+	assets->CreateTowerPlace(Vector2D(64 * 16, 64 * 14), "tower_place_grass");
 	assets->CreateTowerPlace(Vector2D(64 * 10, 64 * 9), "tower_place_grass");
 	assets->CreateTowerPlace(Vector2D(64 * 15, 64 * 9), "tower_place_grass");
+	assets->CreateTowerPlace(Vector2D(64 * 15, 64 * 4), "tower_place_grass");
+	assets->CreateTowerPlace(Vector2D(64 * 18, 64 * 9), "tower_place_grass");
+	assets->CreateTowerPlace(Vector2D(64 * 21, 64 * 9), "tower_place_grass");
+	assets->CreateTowerPlace(Vector2D(64 * 26, 64 * 11), "tower_place_grass");*/
 }
 
 auto& tiles = manager.getGroup(Game::G_Map);
@@ -448,8 +456,25 @@ void Game::AddTile(int id, int x, int y)
 void Game::AddDecoration(int id, int x, int y)
 {
 	if (id != 1000) {
-		auto& tile(manager.addEntity());
-		tile.addComponent<TileComponent>(id, x, y);
-		tile.addGroup(G_Decorations);
+		switch (id)
+		{
+		case 175:
+			assets->CreateTowerPlace(Vector2D(x, y), "tower_place_dirt");
+			break;
+		case 176:
+			assets->CreateTowerPlace(Vector2D(x, y), "tower_place_grass");
+			break;
+		case 177:
+			assets->CreateTowerPlace(Vector2D(x, y), "tower_place_sand");
+			break;
+		case 178:
+			assets->CreateTowerPlace(Vector2D(x, y), "tower_place_road");
+			break;
+		default:
+			auto& tile(manager.addEntity());
+			tile.addComponent<TileComponent>(id, x, y);
+			tile.addGroup(G_Decorations);
+			break;
+		}
 	}
 }

@@ -9,8 +9,8 @@ enum TileID
 	T_Dirt, T_Grass, T_Road, T_Sand,
 	T_Dirt_c, T_Grass_c, T_Road_c, T_Sand_c,
 	//Dirt
-	T_DirtSmGrassDL , T_DirtGrassD, T_DirtSmGrassDR, 
-	T_DirtBgGrassUL, T_DirtBgGrassUR, 
+	T_DirtSmGrassDL, T_DirtGrassD, T_DirtSmGrassDR,
+	T_DirtBgGrassUL, T_DirtBgGrassUR,
 	T_DirtSmSandDL, T_DirtSandD, T_DirtSmSandDR,
 	T_DirtBgSandUL, T_DirtBgSandUR,
 	T_DirtSmRoadDL, T_DirtRoadD, T_DirtSmRoadDR,
@@ -64,7 +64,9 @@ enum TileID
 	D_RockS, D_RockM, D_RockB,
 	D_ShrubCloudB, D_ShrubCloudS,
 	D_ShrubLeavsB, D_ShrubLeavsS,
-	D_ShrubRound, D_CraterRound, D_CraterDrops, D_CraterBang
+	D_ShrubRound, D_CraterRound, D_CraterDrops, D_CraterBang,
+	//Tower places
+	P_Dirt, P_Grass, P_Sand, P_Road
 
 };
 

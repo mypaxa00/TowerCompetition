@@ -69,10 +69,16 @@ Vector2D & Vector2D::operator/=(const Vector2D & vec)
 
 Vector2D & Vector2D::operator*(const int & i)
 {
-	this->x *= i;
-	this->y *= i;
+	return Vector2D(
+		this->x * i,
+		this->y * i);
+}
 
-	return *this;
+Vector2D & Vector2D::operator/(const int & i)
+{
+	return Vector2D(
+		this->x / i,
+		this->y / i);
 }
 
 Vector2D & Vector2D::operator*=(const float & i)

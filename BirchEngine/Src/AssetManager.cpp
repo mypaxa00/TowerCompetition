@@ -140,21 +140,25 @@ void AssetManager::CreateEnemy(EnemyType enemy)
 		en.addComponent<SpriteComponent>("soldier1");
 		en.getComponent<TransformComponent>().speed = 1.5;
 		en.addComponent<HealthComponent>(manager, 100);
+		en.addComponent<ColliderComponent>("enemy", 20, 20);
 		break;
 	case AssetManager::E_Soldier2:
 		en.addComponent<SpriteComponent>("soldier2");
 		en.getComponent<TransformComponent>().speed =  2;
 		en.addComponent<HealthComponent>(manager, 110);
+		en.addComponent<ColliderComponent>("enemy", 20, 20);
 		break;
 	case AssetManager::E_Soldier3:
 		en.addComponent<SpriteComponent>("soldier3");
 		en.getComponent<TransformComponent>().speed = 2.5;
 		en.addComponent<HealthComponent>(manager, 125);
+		en.addComponent<ColliderComponent>("enemy", 20, 20);
 		break;
 	case AssetManager::E_Soldier4:
 		en.addComponent<SpriteComponent>("soldier4");
 		en.getComponent<TransformComponent>().speed = 3;
 		en.addComponent<HealthComponent>(manager, 150);
+		en.addComponent<ColliderComponent>("enemy", 20, 20);
 		break;
 	case AssetManager::E_Plane1:
 		en.addComponent<SpriteComponent>("plane1");
@@ -162,6 +166,7 @@ void AssetManager::CreateEnemy(EnemyType enemy)
 		en.getComponent<TransformComponent>().scale = 1.1;
 		en.addComponent<HealthComponent>(manager, 90);
 		en.addComponent<Shadow>(manager, "planeShd1");
+		en.addComponent<ColliderComponent>("enemy", 35, 35);
 		break;
 	case AssetManager::E_Plane2:
 		en.addComponent<SpriteComponent>("plane2");
@@ -169,11 +174,11 @@ void AssetManager::CreateEnemy(EnemyType enemy)
 		en.getComponent<TransformComponent>().scale = 1.1;
 		en.addComponent<HealthComponent>(manager, 100);
 		en.addComponent<Shadow>(manager, "planeShd2");
+		en.addComponent<ColliderComponent>("enemy", 35, 35);
 		break;
 	default:
 		break;
 	}
-	en.addComponent<ColliderComponent>("enemy", 20, 20);
 	en.addComponent<TrajectoryComponent>();
 	en.addGroup(Game::G_Enemies);
 }
