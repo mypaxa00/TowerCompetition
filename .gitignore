@@ -1,3 +1,7 @@
 .vs
-BirchEngine/Assets
+BirchEngine/Assets/tiles
+BirchEngine/Assets/ui
+BirchEngine/Assets/Fonts
+BirchEngine/Assets/tiles64.png
+BirchEngine/Assets/tiles128.png
 bin

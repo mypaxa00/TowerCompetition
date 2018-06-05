@@ -61,6 +61,7 @@ void Map::LoadMap(int sizeX, int sizeY)
 		}
 	}
 
+	std::cout << dcr << std::endl;
 	pos = 0;
 	for (int i = 0; i < sizeY; i++)
 	{

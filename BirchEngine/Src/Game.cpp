@@ -20,7 +20,7 @@ float Game::money = 1000;
 int Game::exp = 0;
 int Game::moneySpeed = 1;
 std::string Game::map = "Assets/maps/map.map";
-std::string Game::decorations = "Assets/maps/decoration.map";
+std::string Game::decorations = "Assets/maps/decorations.map";
 std::string Game::trajectory = "Assets/maps/trajectory.map";
 int Game::trajectorys[32][2];
 int Game::checkPointCount = 7;
@@ -449,7 +449,7 @@ void Game::AddTile(int id, int x, int y)
 
 void Game::AddDecoration(int id, int x, int y)
 {
-	if (id != 1000) {
+	if (id != 999) {
 		switch (id)
 		{
 		case 175:
