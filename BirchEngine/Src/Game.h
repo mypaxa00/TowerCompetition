@@ -55,6 +55,7 @@ public:
 	static int checkPointCount;
 
 private:
+	int mLevel = 0;
 	int prevTime = 0;
 	int prevSpawnTime = 0;
 	SDL_Window *window;

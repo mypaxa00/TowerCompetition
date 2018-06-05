@@ -8,9 +8,7 @@
 class TowerPlaceComponent : public Component
 {
 public:
-	TowerPlaceComponent(Manager * man, AssetManager * ast) : manager(man), asset(ast)
-	{
-	}
+	TowerPlaceComponent(Manager * man) : manager(man) {}
 	~TowerPlaceComponent(){}
 
 	void init() override {
@@ -38,21 +36,13 @@ public:
 
 private:
 	Manager * manager;
-	AssetManager * asset;
 	MouseButtonComponent * mouse;
 
 	Vector2D pos;
 
 	Entity* selection = NULL;
 
-	bool menuShows = false;
-
-	void showMenu() {
-
-	}
-
 	void clearButtons(bool full = false) {
-		menuShows = false;
 		selection->destroy();
 		if (full)
 			entity->destroy();
@@ -60,14 +50,14 @@ private:
 
 	void chekButtons() {
 		if (Game::money >= 100 && mouse->pressed1) {
-			asset->CreateTower(pos, AssetManager::Tw_MashineGun, 250, 15);
+			Game::assets->CreateTower(pos, AssetManager::Tw_MashineGun, 250, 15);
 			Game::money -= 100;
 			clearButtons(true);
 			return;
 		}
-		if (Game::money >= 175 && mouse->pressed2) {
-			asset->CreateTower(pos, AssetManager::Tw_RocketLauncher, 350, 7);
-			Game::money -= 175;
+		if (Game::money >= 150 && mouse->pressed2) {
+			Game::assets->CreateTower(pos, AssetManager::Tw_RocketLauncher, 350, 7);
+			Game::money -= 150;
 			clearButtons(true);
 			return;
 		}

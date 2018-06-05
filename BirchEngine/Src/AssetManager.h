@@ -18,7 +18,8 @@ public:
 		Sh_Bullet3,
 		Sh_Bullet4,
 		Sh_Rocket1,
-		Sh_Rocket2
+		Sh_Rocket2,
+		Sh_Rocket3
 	};
 
 	enum ButtonColor

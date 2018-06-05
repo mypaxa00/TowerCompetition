@@ -53,10 +53,13 @@ void AssetManager::CreateTowerPlace(Vector2D pos, std::string id)
 	towerPlace.addComponent<TransformComponent>(pos.x, pos.y);
 	towerPlace.addComponent<SpriteComponent>(id);
 	towerPlace.addComponent<MouseButtonComponent>();
-	towerPlace.addComponent<TowerPlaceComponent>(manager, this);
+	towerPlace.addComponent<TowerPlaceComponent>(manager);
 	towerPlace.addGroup(Game::G_Decorations);
 }
 
+/*
+	speed - speed of bullet
+*/
 void AssetManager::CreateTower(Vector2D pos, TowersType type, int range, float speed, int lvl)
 {
 	auto& postament(manager->addEntity());
@@ -68,58 +71,95 @@ void AssetManager::CreateTower(Vector2D pos, TowersType type, int range, float s
 	switch (type)
 	{
 	case AssetManager::Tw_MashineGun:
-		tower.addComponent<SpriteComponent>("MachineGun1", NULL, Vector2D(128, 128));
+		switch (lvl)
+		{
+		case 1:
+			tower.addComponent<SpriteComponent>("MachineGun1", NULL, Vector2D(128, 128));
+			tower.addComponent<EnemyDetect>(manager, type, range, speed, lvl);
+			tower.addComponent<TowerUpgrade>(manager);
+			break;
+		case 2:
+			tower.addComponent<SpriteComponent>("MachineGun2", NULL, Vector2D(128, 128));
+			tower.addComponent<EnemyDetect>(manager, type, range, speed, lvl);
+			tower.addComponent<TowerUpgrade>(manager);
+			break;
+		case 3:
+			tower.addComponent<SpriteComponent>("MachineGun3", NULL, Vector2D(128, 128));
+			tower.addComponent<EnemyDetect>(manager, type, range, speed, lvl);
+			tower.addComponent<TowerUpgrade>(manager);
+			break;
+		case 4:
+			tower.addComponent<SpriteComponent>("MachineGun4", NULL, Vector2D(128, 128));
+			tower.addComponent<EnemyDetect>(manager, type, range, speed, lvl);
+			break;
+		}
+		
 		break;
 	case AssetManager::Tw_RocketLauncher:
-		tower.addComponent<SpriteComponent>("RocketLauncher1", NULL, Vector2D(128, 128));
+		switch (lvl)
+		{
+		case 1:
+			tower.addComponent<SpriteComponent>("RocketLauncher1", NULL, Vector2D(128, 128));
+			tower.addComponent<EnemyDetect>(manager, type, range, speed, lvl);
+			tower.addComponent<TowerUpgrade>(manager);
+			break;
+		case 2:
+			tower.addComponent<SpriteComponent>("RocketLauncher2", NULL, Vector2D(128, 128));
+			tower.addComponent<EnemyDetect>(manager, type, range, speed, lvl);
+			tower.addComponent<TowerUpgrade>(manager);
+			break;
+		case 3:
+			tower.addComponent<SpriteComponent>("RocketLauncher3", NULL, Vector2D(128, 128));
+			tower.addComponent<EnemyDetect>(manager, type, range, speed, lvl);
+			break;
+		}
 		break;
 	default:
 		break;
 	}
-	tower.addComponent<EnemyDetect>(manager, this, type, range, speed, lvl);
 	tower.addGroup(Game::G_Towers);
 }
 
 Entity * AssetManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, float speed, ShotType bull, float* ang, Entity* enemy)
 {
 	auto& projectile(manager->addEntity());
+	projectile.addComponent<TransformComponent>(pos.x, pos.y);
 	switch (bull)
 	{
 	case AssetManager::Sh_Bullet1:
-		projectile.addComponent<TransformComponent>(pos.x, pos.y);
 		projectile.addComponent<SpriteComponent>("bullet1");
 		projectile.addComponent<ColliderComponent>("bullet1", 15, 15);
 		projectile.addComponent<ProjectileComponent>(range, speed, 5, vel);
 		break;
 	case AssetManager::Sh_Bullet2:
-		projectile.addComponent<TransformComponent>(pos.x, pos.y);
 		projectile.addComponent<SpriteComponent>("bullet2");
 		projectile.addComponent<ColliderComponent>("bullet2", 15, 15);
 		projectile.addComponent<ProjectileComponent>(range, speed, 10, vel);
 		break;
 	case AssetManager::Sh_Bullet3:
-		projectile.addComponent<TransformComponent>(pos.x, pos.y);
 		projectile.addComponent<SpriteComponent>("bullet3");
 		projectile.addComponent<ColliderComponent>("bullet3", 15, 15);
 		projectile.addComponent<ProjectileComponent>(range, speed, 15, vel);
 		break;
 	case AssetManager::Sh_Bullet4:
-		projectile.addComponent<TransformComponent>(pos.x, pos.y);
 		projectile.addComponent<SpriteComponent>("bullet4");
 		projectile.addComponent<ColliderComponent>("bullet4", 15, 15);
 		projectile.addComponent<ProjectileComponent>(range, speed, 20, vel);
 		break;
 	case AssetManager::Sh_Rocket1:
-		projectile.addComponent<TransformComponent>(pos.x, pos.y);
 		projectile.addComponent<SpriteComponent>("rocket1", *ang, Vector2D(128, 128));
 		projectile.addComponent<ColliderComponent>("rocket1", 15, 15);
 		projectile.addComponent<ProjectileComponent>(range, speed, 15, vel , enemy);
 		break;
 	case AssetManager::Sh_Rocket2:
-		projectile.addComponent<TransformComponent>(pos.x, pos.y);
+		projectile.addComponent<SpriteComponent>("rocket1", *ang, Vector2D(128, 128));
+		projectile.addComponent<ColliderComponent>("rocket1", 15, 15);
+		projectile.addComponent<ProjectileComponent>(range, speed, 30, vel , enemy);
+		break;
+	case AssetManager::Sh_Rocket3:
 		projectile.addComponent<SpriteComponent>("rocket2", *ang, Vector2D(128, 128));
 		projectile.addComponent<ColliderComponent>("rocket2", 15, 15);
-		projectile.addComponent<ProjectileComponent>(range, speed, 30, vel , enemy);
+		projectile.addComponent<ProjectileComponent>(range, speed, 50, vel, enemy);
 		break;
 	default:
 		break;

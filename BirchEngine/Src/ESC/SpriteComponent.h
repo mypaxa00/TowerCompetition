@@ -26,7 +26,6 @@ public:
 
 	void setTex(std::string id) {
 		this->id = id;
-		texture = Game::assets->GetTexture(id);
 	}
 
 	void init() override {
@@ -50,6 +49,7 @@ public:
 	}
 
 	void draw() override {
+		texture = Game::assets->GetTexture(id);
 		TextureManager::Draw(texture, src, dest, flip, angle);
 	}
 

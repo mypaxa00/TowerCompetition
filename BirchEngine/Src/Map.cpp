@@ -86,7 +86,6 @@ void Map::LoadMap(int sizeX, int sizeY)
 			trj += tile;
 		if (tile == '\n')
 			count++;
-		std::cout << trj << std::endl;
 	} while (count < 1);
 	mapFile.close();
 	std::cout << "TRA loaded." << std::endl;

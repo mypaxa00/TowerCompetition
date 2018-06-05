@@ -44,8 +44,8 @@ public:
 			y = Game::event.button.y;
 			if (x > pos.x && see) {
 				startPress = true;
-				if (pressedS != "") {
-					sprite->setTex(pressedS);
+				if (Game::event.button.button == SDL_BUTTON_LEFT && pressedS != "") {
+						sprite->setTex(pressedS);
 				}
 			}
 			break;
