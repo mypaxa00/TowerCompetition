@@ -113,13 +113,13 @@ Entity * AssetManager::CreateProjectile(Vector2D pos, Vector2D vel, int range, f
 		projectile.addComponent<TransformComponent>(pos.x, pos.y);
 		projectile.addComponent<SpriteComponent>("rocket1", *ang, Vector2D(128, 128));
 		projectile.addComponent<ColliderComponent>("rocket1", 15, 15);
-		projectile.addComponent<ProjectileComponent>(range, speed, 5, vel , enemy);
+		projectile.addComponent<ProjectileComponent>(range, speed, 15, vel , enemy);
 		break;
 	case AssetManager::Sh_Rocket2:
 		projectile.addComponent<TransformComponent>(pos.x, pos.y);
 		projectile.addComponent<SpriteComponent>("rocket2", *ang, Vector2D(128, 128));
 		projectile.addComponent<ColliderComponent>("rocket2", 15, 15);
-		projectile.addComponent<ProjectileComponent>(range, speed, 10, vel , enemy);
+		projectile.addComponent<ProjectileComponent>(range, speed, 30, vel , enemy);
 		break;
 	default:
 		break;

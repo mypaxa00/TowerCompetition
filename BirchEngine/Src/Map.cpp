@@ -33,7 +33,7 @@ void Map::LoadMap(int sizeX, int sizeY)
 			count++;
 	} while (count < sizeY);
 	mapFile.close();
-
+	std::cout << "MAP loaded." << std::endl;
 	mapFile.open(Game::decorations);
 	count = 0;
 	std::string dcr = "";
@@ -45,6 +45,7 @@ void Map::LoadMap(int sizeX, int sizeY)
 			count++;
 	} while (count < sizeY);
 	mapFile.close();
+	std::cout << "DEC loaded." << std::endl;
 
 	size_t pos = 0;
 	for (int i = 0; i < sizeY; i++)
@@ -61,7 +62,6 @@ void Map::LoadMap(int sizeX, int sizeY)
 		}
 	}
 
-	std::cout << dcr << std::endl;
 	pos = 0;
 	for (int i = 0; i < sizeY; i++)
 	{
@@ -76,7 +76,7 @@ void Map::LoadMap(int sizeX, int sizeY)
 			Game::AddDecoration(atoi(x.c_str()), j * 64, i * 64);
 		}
 	}
-
+	
 	mapFile.open(Game::trajectory);
 	count = 0;
 	std::string trj = "";
@@ -86,9 +86,10 @@ void Map::LoadMap(int sizeX, int sizeY)
 			trj += tile;
 		if (tile == '\n')
 			count++;
+		std::cout << trj << std::endl;
 	} while (count < 1);
 	mapFile.close();
-
+	std::cout << "TRA loaded." << std::endl;
 	pos = 0;
 	for (int i = 0; i < Game::checkPointCount; i++)
 	{
@@ -98,6 +99,7 @@ void Map::LoadMap(int sizeX, int sizeY)
 			while (isdigit(trj.at(pos))) {
 				x += trj.at(pos);
 				pos++;
+				
 			}
 			pos++;
 			Game::trajectorys[i][j] = atoi(x.c_str());

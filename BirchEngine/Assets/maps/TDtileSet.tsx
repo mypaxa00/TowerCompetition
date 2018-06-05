@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="TDtileSet" tilewidth="64" tileheight="64" tilecount="175" columns="0">
+<tileset name="TDtileSet" tilewidth="64" tileheight="64" tilecount="179" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image width="64" height="64" source="../tiles/64/environment/m_dirt_tile.png"/>
@@ -525,5 +525,17 @@
  </tile>
  <tile id="174">
   <image width="64" height="64" source="../tiles/64/environment/decorations/particles_crater3_tile.png"/>
+ </tile>
+ <tile id="175">
+  <image width="64" height="64" source="../tiles/64/environment/towerDefense_tile068.png"/>
+ </tile>
+ <tile id="176">
+  <image width="64" height="64" source="../tiles/64/environment/towerDefense_tile045.png"/>
+ </tile>
+ <tile id="177">
+  <image width="64" height="64" source="../tiles/64/environment/towerDefense_tile114.png"/>
+ </tile>
+ <tile id="178">
+  <image width="64" height="64" source="../tiles/64/environment/towerDefense_tile091.png"/>
  </tile>
 </tileset>

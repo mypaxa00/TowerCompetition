@@ -20,8 +20,8 @@ float Game::money = 1000;
 int Game::exp = 0;
 int Game::moneySpeed = 1;
 std::string Game::map = "Assets/maps/map.map";
-std::string Game::decorations = "Assets/maps/decorations.map";
-std::string Game::trajectory = "Assets/maps/trajectory.map";
+std::string Game::decorations = "Assets/maps/dec1.map";
+std::string Game::trajectory = "Assets/maps/tra1.map";
 int Game::trajectorys[32][2];
 int Game::checkPointCount = 7;
 
@@ -271,7 +271,6 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 			assets->AddTexture("planeShd2", "Assets/tiles/64/enemies/sh_plane2_tile.png");
 	}
 	
-	
 	//Loading Fonts
 		{
 		assets->AddFont("Future18", "Assets/Fonts/Kenney Future.ttf", 18);
@@ -301,7 +300,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	hud.addComponent<SpriteComponent>("hud_bg", NULL, Vector2D(190, 49));
 
 	player.addComponent<TransformComponent>(0, 0);
-	player.addComponent<SpriteComponent>("soldier4");
+	player.addComponent<SpriteComponent>("116");
 	player.addComponent<KeyBoardController>(3);
 	player.addComponent<ColliderComponent>("player", 32, 32);
 	player.addComponent<HealthComponent>(&manager, 100);
