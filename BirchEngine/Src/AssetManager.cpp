@@ -13,7 +13,45 @@ AssetManager::~AssetManager()
 {
 }
 
-Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, std::string text, ButtonColor color) {
+Entity * AssetManager::CreateLabel(int posX, int posY, std::string text, SDL_Color color, std::string font)
+{
+	Entity * label = &manager->addEntity();
+	label->addComponent<UILabel>(posX, posY, text, font, color);
+	label->addGroup(Game::G_Labels);
+	return label;
+}
+
+
+
+Entity * AssetManager::CreateBGPanel(int posX, int posY, int width, int height, ButtonColor color)
+{
+	Entity * panel = &manager->addEntity();
+	panel->addComponent<TransformComponent>(posX, posY, 1, width, height);
+	panel->addGroup(Game::G_BGs);
+	switch (color)
+	{
+	case B_Blue:
+		panel->addComponent<SpriteComponent>("blue_panel", NULL, Vector2D(100, 100));
+		break;
+	case B_Green:
+		panel->addComponent<SpriteComponent>("green_panel", NULL, Vector2D(100, 100));
+		break;
+	case B_White:
+		panel->addComponent<SpriteComponent>("grey_panel", NULL, Vector2D(100, 100));
+		break;
+	case B_Red:
+		panel->addComponent<SpriteComponent>("red_panel", NULL, Vector2D(100, 100));
+		break;
+	case B_Yellow:
+		panel->addComponent<SpriteComponent>("yellow_panel", NULL, Vector2D(100, 100));
+		break;
+	default:
+		break;
+	}
+	return panel;
+}
+
+Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, std::string text, ButtonColor color, std::string Font) {
 	SDL_Color white = { 255, 255, 255, 255 };
 	auto& button(manager->addEntity());
 	button.addComponent<TransformComponent>(posX, posY, 1, width, height);
@@ -28,8 +66,8 @@ Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, s
 		button.addComponent<MouseButtonComponent>("button_pressed_green");
 		break;
 	case B_White:
-		button.addComponent<SpriteComponent>("button_white", NULL, Vector2D(190, 49));
-		button.addComponent<MouseButtonComponent>("button_pressed_white");
+		button.addComponent<SpriteComponent>("button_gray", NULL, Vector2D(190, 49));
+		button.addComponent<MouseButtonComponent>("button_pressed_gray");
 		break;
 	case B_Red:
 		button.addComponent<SpriteComponent>("button_red", NULL, Vector2D(190, 49));
@@ -42,8 +80,9 @@ Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, s
 	default:
 		break;
 	}
-	button.addComponent<UILabel>(posX + 3, posY + 3, text, "Blocks", white);
-	button.addGroup(Game::G_Labels);
+	if (text != "");
+	button.addComponent<UILabel>(posX + 3, posY + 3, text, Font, white);
+	button.addGroup(Game::G_Buttons);
 	return &button;
 }
 

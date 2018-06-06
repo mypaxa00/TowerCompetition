@@ -167,6 +167,7 @@
     <ClInclude Include="Src\ESC\ColliderComponent.h" />
     <ClInclude Include="Src\Collision.h" />
     <ClInclude Include="Src\ESC\EnemyDetectComponent.h" />
+    <ClInclude Include="Src\ESC\UpgradeMenue.h" />
     <ClInclude Include="Src\ESC\TowerUpgradeComponent.h" />
     <ClInclude Include="Src\ESC\Health.h" />
     <ClInclude Include="Src\ESC\KeyBoardController.h" />

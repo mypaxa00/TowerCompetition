@@ -50,7 +50,11 @@ public:
 	AssetManager(Manager * man);
 	~AssetManager();
 
-	Entity * CreateButton(int posX, int posY, int width, int height, std::string text, ButtonColor color = B_Blue);
+	Entity * CreateLabel(int posX, int posY, std::string text, SDL_Color color = {255, 255, 255, 255}, std::string font = "Blocks");
+
+	Entity * CreateBGPanel(int posX, int posY, int width, int height, ButtonColor color = B_Green);
+
+	Entity * CreateButton(int posX, int posY, int width, int height, std::string text = "", ButtonColor color = B_Blue, std::string Font = "Blocks");
 
 	void CreateTowerPlace(Vector2D pos, std::string id);
 

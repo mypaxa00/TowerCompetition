@@ -30,6 +30,7 @@ auto& moneyLabel(manager.addEntity());
 auto& expLabel(manager.addEntity());
 auto& healthLabel(manager.addEntity());
 auto& hud(manager.addEntity());
+auto& menu(manager.addEntity());
 Entity* moneyButton;
 
 Game::Game()
@@ -247,6 +248,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		
 		//UI
 		if (true) {
+			assets->AddTexture("selection", "Assets/tiles/64/selection.png");
+			assets->AddTexture("locked", "Assets/tiles/64/Locked.png");
+			assets->AddTexture("denied", "Assets/tiles/64/Sell.png");
 			assets->AddTexture("hud_bg", "Assets/ui/grey_button15.png");
 			assets->AddTexture("button_green", "Assets/ui/green_button04.png");
 			assets->AddTexture("button_pressed_green", "Assets/ui/green_button05.png");
@@ -254,10 +258,15 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 			assets->AddTexture("button_pressed_blue", "Assets/ui/blue_button01.png");
 			assets->AddTexture("button_red", "Assets/ui/red_button00.png");
 			assets->AddTexture("button_pressed_red", "Assets/ui/red_button01.png");
-			assets->AddTexture("selection", "Assets/tiles/64/selection.png");
-			assets->AddTexture("gray_panel", "Assets/tiles/ui/gray_panel.png");
-			assets->AddTexture("blue_panel", "Assets/tiles/ui/blue_panel.png");
-			assets->AddTexture("red_panel", "Assets/tiles/ui/red_panel.png");
+			assets->AddTexture("button_gray", "Assets/ui/gray_button03.png");
+			assets->AddTexture("button_pressed_gray", "Assets/ui/gray_button04.png");
+			assets->AddTexture("button_yellow", "Assets/ui/yellow_button04.png");
+			assets->AddTexture("button_pressed_yellow", "Assets/ui/yellow_button05.png");
+			assets->AddTexture("grey_panel", "Assets/ui/grey_panel.png");
+			assets->AddTexture("blue_panel", "Assets/ui/blue_panel.png");
+			assets->AddTexture("red_panel", "Assets/ui/red_panel.png");
+			assets->AddTexture("green_panel", "Assets/ui/green_panel.png");
+			assets->AddTexture("yellow_panel", "Assets/ui/yellow_panel.png");
 		}
 
 		//Enemies
@@ -292,6 +301,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	
 	//Loading Fonts
 		{
+			assets->AddFont("$", "Assets/Fonts/Stamperbrk.ttf", 20);
 			assets->AddFont("Future18", "Assets/Fonts/Kenney Future.ttf", 18);
 			assets->AddFont("Future", "Assets/Fonts/Kenney Future.ttf", 36);
 			assets->AddFont("Blocks", "Assets/Fonts/Alphamalemodern.ttf", 25);
@@ -323,21 +333,21 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	player.addComponent<KeyBoardController>(3);
 	player.addComponent<ColliderComponent>("player", 32, 32);
 	player.addComponent<HealthComponent>(&manager, 100);
-	player.addComponent<LineComponent>(&manager);
+	//player.addComponent<LineComponent>(&manager);
 	player.addGroup(Game::G_Enemies);
 	player.addGroup(G_Players);
 
 	SDL_Color color = { 255, 255, 255, 255 };
 	color = { 0, 0, 0, 255 };
-	moneyLabel.addComponent<UILabel>(10, 1030, "", "Future", color);
+	moneyLabel.addComponent<UILabel>(10, 1030, "", "$", color);
 	moneyLabel.addGroup(G_Labels);
 	color = { 0, 0, 255, 255 };
-	expLabel.addComponent<UILabel>(450, 1030, "", "Future", color);
+	expLabel.addComponent<UILabel>(450, 1030, "", "$", color);
 	expLabel.addGroup(G_Labels);
 	color = { 255, 0, 0, 255 };
 	healthLabel.addComponent<UILabel>(1600, 1030, "", "Future", color);
 	healthLabel.addGroup(G_Labels);
-
+	menu.addComponent<UpgradingMenue>(&manager);
 	moneyButton = assets->CreateButton(700, 1030, 230, 45, " INCREASE MONEY", AssetManager::B_Green);
 }
 
@@ -349,6 +359,8 @@ auto& projectiles(manager.getGroup(Game::G_Projectiles));
 auto& colliders(manager.getGroup(Game::G_Colliders));
 auto& labels(manager.getGroup(Game::G_Labels));
 auto& shadows(manager.getGroup(Game::G_Shadows));
+auto& buttons(manager.getGroup(Game::G_Buttons));
+auto& backgrounds(manager.getGroup(Game::G_BGs));
 
 void Game::handleEvents()
 {
@@ -425,10 +437,10 @@ void Game::update()
 	sh << "HEALTH: " << health;
 	healthLabel.getComponent<UILabel>().SetLabelText(sh.str(), "Future");
 	std::stringstream sm;
-	sm << "MONEY: " << (int)money;
+	sm << "MONEY: " << (int)money << "$";
 	moneyLabel.getComponent<UILabel>().SetLabelText(sm.str(), "Future");
 	std::stringstream se;
-	se << "EXP: " << exp;
+	se << "EXP: " << exp << "#";
 	expLabel.getComponent<UILabel>().SetLabelText(se.str(), "Future");
 	manager.refresh();
 	manager.update();
@@ -451,6 +463,10 @@ void Game::render()
 	for (auto& p : projectiles)
 		p->draw();
 	hud.draw();
+	for (auto& bg : backgrounds)
+		bg->draw();
+	for (auto& b : buttons)
+		b->draw();
 	for (auto& l : labels)
 		l->draw();
 

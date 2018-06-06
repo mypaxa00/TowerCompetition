@@ -64,7 +64,7 @@ public:
 				speed--;
 				transform->speed = speed;
 				break;
-			case SDLK_LSHIFT:
+			case SDLK_LSHIFT: case SDLK_RSHIFT:
 				transform->speed = speed * 2;
 				break;
 			default:

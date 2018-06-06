@@ -41,7 +41,10 @@ public:
 		G_Colliders,
 		G_Projectiles,
 		G_Labels,
-		G_Shadows
+		G_Shadows,
+		G_UpgradeMenue,
+		G_Buttons,
+		G_BGs
 	};
 
 	static int health;
