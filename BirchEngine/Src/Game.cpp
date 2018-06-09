@@ -339,10 +339,10 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	SDL_Color color = { 255, 255, 255, 255 };
 	color = { 0, 0, 0, 255 };
-	moneyLabel.addComponent<UILabel>(10, 1030, "", "$", color);
+	moneyLabel.addComponent<UILabel>(10, 1030, "", "Future", color);
 	moneyLabel.addGroup(G_Labels);
 	color = { 0, 0, 255, 255 };
-	expLabel.addComponent<UILabel>(450, 1030, "", "$", color);
+	expLabel.addComponent<UILabel>(450, 1030, "", "Future", color);
 	expLabel.addGroup(G_Labels);
 	color = { 255, 0, 0, 255 };
 	healthLabel.addComponent<UILabel>(1600, 1030, "", "Future", color);
@@ -435,13 +435,16 @@ void Game::update()
 
 	std::stringstream sh;
 	sh << "HEALTH: " << health;
-	healthLabel.getComponent<UILabel>().SetLabelText(sh.str(), "Future");
+	healthLabel.getComponent<UILabel>().SetLabelText(sh.str());
+	healthLabel.getComponent<UILabel>().upd();
 	std::stringstream sm;
 	sm << "MONEY: " << (int)money << "$";
-	moneyLabel.getComponent<UILabel>().SetLabelText(sm.str(), "Future");
+	moneyLabel.getComponent<UILabel>().SetLabelText(sm.str());
+	moneyLabel.getComponent<UILabel>().upd();
 	std::stringstream se;
 	se << "EXP: " << exp << "#";
-	expLabel.getComponent<UILabel>().SetLabelText(se.str(), "Future");
+	expLabel.getComponent<UILabel>().SetLabelText(se.str());
+	expLabel.getComponent<UILabel>().upd();
 	manager.refresh();
 	manager.update();
 }

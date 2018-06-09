@@ -22,7 +22,7 @@ public:
 		health = maxHealth;
 		std::stringstream hlth;
 		hlth << health;
-		label->addComponent<UILabel>(position->x, position->y, hlth.str(), "Blocks", green);
+		label->addComponent<UILabel>(position->x, position->y, hlth.str(), "Future18", green);
 		label->addGroup(Game::G_Labels);
 	}
 

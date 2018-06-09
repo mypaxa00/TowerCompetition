@@ -6,7 +6,6 @@
 #include "Components.h"
 #include <math.h>
 
-const int LEFT_SPACE = 0;
 const int BETWEEN_SPACE = 10;
 const int TILE_SIZE = 64;
 const int BUTTON_H = 20;
@@ -17,7 +16,10 @@ const int MAIN_B_H = 45;
 class UpgradingMenue : public Component
 {
 public:
-	UpgradingMenue(Manager * man) : manager(man) {}
+	/*
+		POS - (0-1676)
+	*/
+	UpgradingMenue(Manager * man, int POS = 0) : manager(man), LEFT_SPACE(POS) {}
 	~UpgradingMenue() {}
 
 	void init() override {
@@ -170,6 +172,9 @@ public:
 	}
 
 private:
+
+	int LEFT_SPACE = 0;
+
 	Manager * manager;
 
 	Entity * BackgroundPlate;
@@ -200,8 +205,6 @@ private:
 	AssetManager::ButtonColor PBuy;
 	AssetManager::ButtonColor PUpg;
 	int planeLvl = 0;
-
-	//@TODO
 
 	void updatePButton(std::string label, AssetManager::ButtonColor color) {
 		PButton->destroy();
@@ -266,11 +269,13 @@ private:
 							planeBG->getComponent<UILabel>().SetLabelText("100$");
 							plane->addComponent<SpriteComponent>("plane1");
 							plane->addGroup(Game::G_Buttons);
+							updatePlaneBG("100$", AssetManager::B_Green);
+							updatePButton("Unlock: 200#", AssetManager::B_Green);
 							return;
 						}
 					}
 					else {
-						SDL_Color color = { 128, 128, 128, 255 };
+						SDL_Color color = { 255, 255, 255, 255 };
 						pdesc->SetLabelText("No info");
 						pdesc->SetLabelColor(color);
 						pdesc->upd();
@@ -302,6 +307,8 @@ private:
 							Game::exp -= 200;
 							planeBG->getComponent<UILabel>().SetLabelText("200$");
 							plane->getComponent<SpriteComponent>().setTex("plane2");
+							updatePlaneBG("200$", AssetManager::B_Green);
+							updatePButton("MAX LEVEL", AssetManager::B_Yellow);
 							return;
 						}
 					}
@@ -370,6 +377,8 @@ private:
 							sdesc->SetLabelText("HP 110, S 40");
 							sdesc->SetLabelColor(color);
 							sdesc->upd();
+							updateSoldierBG("60$", AssetManager::B_Green);
+							updateSButton("Upgrade: 60#", AssetManager::B_Green);
 							return;
 						}
 					}
@@ -397,7 +406,6 @@ private:
 				else {
 					if (SBuy != AssetManager::B_Red) {
 						updateSoldierBG("50$", AssetManager::B_Red);
-
 					}
 				}
 				break;
@@ -421,6 +429,8 @@ private:
 							sdesc->SetLabelText("HP 125, S 50");
 							sdesc->SetLabelColor(color);
 							sdesc->upd();
+							updateSoldierBG("75$", AssetManager::B_Green);
+							updateSButton("Upgrade: 75#", AssetManager::B_Green);
 							return;
 						}
 					}
@@ -439,7 +449,6 @@ private:
 				if (Game::money >= 60) {
 					if (SBuy != AssetManager::B_Green) {
 						updateSoldierBG("60$", AssetManager::B_Green);
-
 					}
 					if (soldierBG->getComponent<MouseButtonComponent>().pressed1) {
 						Game::assets->CreateEnemy(AssetManager::E_Soldier2);
@@ -472,6 +481,8 @@ private:
 							sdesc->SetLabelText("HP 150, S 60");
 							sdesc->SetLabelColor(color);
 							sdesc->upd();
+							updateSoldierBG("100$", AssetManager::B_Green);
+							updateSButton("MAX LEVEL", AssetManager::B_Yellow);
 							return;
 						}
 					}
