@@ -42,11 +42,11 @@ public:
 
 		std::stringstream ssl;
 		ssl << "Length = " << length;
-		label->getComponent<UILabel>().SetLabelText(ssl.str(), "Future");
+		label->getComponent<UILabel>().SetLabelText(ssl.str());
 
 		std::stringstream ssp;
 		ssp << "pos = " << *curPos;
-		pos->getComponent<UILabel>().SetLabelText(ssp.str(), "Future");
+		pos->getComponent<UILabel>().SetLabelText(ssp.str());
 	}
 
 private:

@@ -20,7 +20,7 @@ public:
 	~MouseButtonComponent() {}
 
 	void init() override {
-		pos = entity->getComponent<TransformComponent>().position;
+		pos = &entity->getComponent<TransformComponent>().position;
 		if (entity->hasComponent<SpriteComponent>())
 			sprite = &entity->getComponent<SpriteComponent>();
 		else {
@@ -42,7 +42,7 @@ public:
 		case SDL_MOUSEBUTTONDOWN:
 			x = Game::event.button.x;
 			y = Game::event.button.y;
-			if (x > pos.x && see) {
+			if (x > pos->x && see) {
 				startPress = true;
 				if (Game::event.button.button == SDL_BUTTON_LEFT && pressedS != "") {
 						sprite->setTex(pressedS);
@@ -68,7 +68,7 @@ public:
 		if (Game::event.type == SDL_MOUSEMOTION) {
 			x = Game::event.motion.x;
 			y = Game::event.motion.y;
-			if (x > pos.x && x < pos.x + width && y > pos.y && y < pos.y + height) {
+			if (x > pos->x && x < pos->x + width && y > pos->y && y < pos->y + height) {
 				see = true;
 			}
 			else
@@ -80,7 +80,7 @@ public:
 
 private:
 	SpriteComponent * sprite;
-	Vector2D pos;
+	Vector2D * pos;
 	int width;
 	int height;
 	std::string defaultS;

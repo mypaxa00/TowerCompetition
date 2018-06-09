@@ -50,6 +50,8 @@ public:
 	AssetManager(Manager * man);
 	~AssetManager();
 
+	void CreateArmy();
+
 	Entity * CreateLabel(int posX, int posY, std::string text, SDL_Color color = {255, 255, 255, 255}, std::string font = "Blocks");
 
 	Entity * CreateBGPanel(int posX, int posY, int width, int height, ButtonColor color = B_Green);

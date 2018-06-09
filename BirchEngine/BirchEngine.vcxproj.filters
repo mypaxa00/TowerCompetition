@@ -116,7 +116,7 @@
     <ClInclude Include="Src\ESC\TowerUpgradeComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Src\ESC\UpgradeMenue.h">
+    <ClInclude Include="Src\ESC\UpgradeMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

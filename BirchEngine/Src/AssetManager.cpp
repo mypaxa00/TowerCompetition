@@ -13,6 +13,13 @@ AssetManager::~AssetManager()
 {
 }
 
+/*void AssetManager::CreateArmy()
+{
+	auto& army(manager->addEntity());
+	army.addComponent<Army>();
+	army.addComponent<Upgrade>();
+}*/
+
 Entity * AssetManager::CreateLabel(int posX, int posY, std::string text, SDL_Color color, std::string font)
 {
 	Entity * label = &manager->addEntity();

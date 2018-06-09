@@ -17,29 +17,23 @@ public:
 	{
 		position.x = xpos;
 		position.y = ypos;
-		SetLabelText(labelText, labelFont);
+		upd();
 	}
 	~UILabel() {
 		SDL_DestroyTexture(labelTexture);
 	}
 
-	void SetLabelText(std::string text, std::string font) {
-		labelFont = font;
-		SetLabelText(text);
-	}
-
-	void SetLabelText(std::string text) {
+	void upd() {
 		if (labelTexture != NULL)
 			SDL_DestroyTexture(labelTexture);
-		SDL_Surface* surf = TTF_RenderText_Blended(Game::assets->GetFont(labelFont), text.c_str(), textColor);
+		SDL_Surface* surf = TTF_RenderText_Blended(Game::assets->GetFont(labelFont), labelText.c_str(), textColor);
 		labelTexture = SDL_CreateTextureFromSurface(Game::renderer, surf);
 		SDL_FreeSurface(surf);
 		SDL_QueryTexture(labelTexture, nullptr, nullptr, &position.w, &position.h);
 	}
 
-	void SetLabelText(std::string text, std::string font, SDL_Color& newCol) {
-		textColor = newCol;
-		SetLabelText(text, font);
+	void SetLabelColor(SDL_Color color) {
+		textColor = color;
 	}
 
 	void SetLabelPos(int newX, int newY) {
@@ -47,11 +41,12 @@ public:
 		position.y = newY;
 	}
 
-	void SetLabelText(std::string text, std::string font, SDL_Color& newCol, int newX, int newY) {
-		position.x = newX;
-		position.y = newY;
-		textColor = newCol;
-		SetLabelText(text, font);
+	void SetLabelFont(std::string font) {
+		labelFont = font;
+	}
+
+	void SetLabelText(std::string text) {
+		labelText = text;
 	}
 
 	Vector2D pos() {
