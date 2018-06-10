@@ -50,13 +50,16 @@ public:
 	AssetManager(Manager * man);
 	~AssetManager();
 
-	void CreateArmy();
+	void CreateStatsLabels();
+
+	Entity * CreateSlider(int posX, int PosY, int width, int minV, int maxV, AssetManager::ButtonColor color = AssetManager::B_Blue);
 
 	Entity * CreateLabel(int posX, int posY, std::string text, SDL_Color color = {255, 255, 255, 255}, std::string font = "Blocks");
 
 	Entity * CreateBGPanel(int posX, int posY, int width, int height, ButtonColor color = B_Green);
 
-	Entity * CreateButton(int posX, int posY, int width, int height, std::string text = "", ButtonColor color = B_Blue, std::string Font = "Blocks");
+	Entity * CreateButton(int posX, int posY, int width, int height, std::string text = "",
+		ButtonColor color = B_Blue, std::string Font = "Blocks", SDL_Color col = { 255, 255, 255, 255 });
 
 	void CreateTowerPlace(Vector2D pos, std::string id);
 

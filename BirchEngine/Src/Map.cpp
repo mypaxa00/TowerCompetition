@@ -105,3 +105,65 @@ void Map::LoadMap(int sizeX, int sizeY)
 		}
 	}
 }
+
+void Map::MapPreload(int sizeX, int sizeY)
+{
+	char tile;
+	std::fstream mapFile;
+	mapFile.open(Game::map);
+	int count = 0;
+	std::string map = "";
+	do {
+		mapFile.get(tile);
+		if (tile != ' ' && tile != '\t')
+			map += tile;
+		if (tile == '\n')
+			count++;
+	} while (count < sizeY);
+	mapFile.close();
+	std::cout << "MAP loaded." << std::endl;
+	mapFile.open(Game::decorations);
+	count = 0;
+	std::string dcr = "";
+	do {
+		mapFile.get(tile);
+		if (tile != ' ' && tile != '\t')
+			dcr += tile;
+		if (tile == '\n')
+			count++;
+	} while (count < sizeY);
+	mapFile.close();
+	std::cout << "DEC loaded." << std::endl;
+
+	size_t pos = 0;
+	for (int i = 0; i < sizeY; i++)
+	{
+		for (int j = 0; j < sizeX; j++)
+		{
+			std::string x;
+			while (isdigit(map.at(pos))) {
+				x += map.at(pos);
+				pos++;
+			}
+			pos++;
+			Game::AddTile(atoi(x.c_str()), j * 64, i * 64);
+		}
+	}
+
+	pos = 0;
+	for (int i = 0; i < sizeY; i++)
+	{
+		for (int j = 0; j < sizeX; j++)
+		{
+			std::string x;
+			while (isdigit(dcr.at(pos))) {
+				x += dcr.at(pos);
+				pos++;
+			}
+			pos++;
+			int k = atoi(x.c_str());
+			if(k != 175 && k != 176 && k != 177 && k != 178)
+			Game::AddDecoration(k, j * 64, i * 64);
+		}
+	}
+}

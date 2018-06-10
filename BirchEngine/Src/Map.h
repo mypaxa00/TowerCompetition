@@ -11,7 +11,7 @@ public:
 	~Map();
 
 	static void LoadMap(int sizeX = 30, int sizeY = 16);
-
+	static void MapPreload(int sizeX = 30, int sizeY = 16);
 
 };
 

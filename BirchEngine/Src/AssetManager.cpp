@@ -13,12 +13,45 @@ AssetManager::~AssetManager()
 {
 }
 
-/*void AssetManager::CreateArmy()
+void AssetManager::CreateStatsLabels()
 {
-	auto& army(manager->addEntity());
-	army.addComponent<Army>();
-	army.addComponent<Upgrade>();
-}*/
+	Entity * hud(&manager->addEntity());
+	Entity * moneyLabel(&manager->addEntity());
+	Entity * expLabel(&manager->addEntity());
+	Entity * healthLabel(&manager->addEntity());
+	Entity * monneypers(&manager->addEntity());
+	Entity * umenu(&manager->addEntity());
+	hud->addComponent<TransformComponent>(-64, 1024, 1, 2048, 56);
+	hud->addComponent<SpriteComponent>("hud_bg", NULL, Vector2D(190, 49));
+	hud->addGroup(Game::G_BGs);
+	SDL_Color color = { 255, 255, 255, 255 };
+	color = { 0, 0, 0, 255 };
+	moneyLabel->addComponent<UILabel>(10, 1030, "", "Future", color);
+	moneyLabel->addGroup(Game::G_Labels);
+	color = { 0, 0, 255, 255 };
+	expLabel->addComponent<UILabel>(450, 1030, "", "Future", color);
+	expLabel->addGroup(Game::G_Labels);
+	color = { 255, 0, 0, 255 };
+	healthLabel->addComponent<UILabel>(1600, 1030, "", "Future", color);
+	healthLabel->addGroup(Game::G_Labels);
+	color = { 0, 255, 0, 255 };
+	monneypers->addComponent<UILabel>(800, 1030, "", "Future", color);
+	moneyLabel->addGroup(Game::G_Labels);
+	umenu->addComponent<UpgradingMenue>(manager);
+	umenu->addComponent<LabUpd>(healthLabel, moneyLabel, expLabel, monneypers);
+}
+
+Entity * AssetManager::CreateSlider(int posX, int posY, int width, int minV, int maxV, AssetManager::ButtonColor color)
+{
+	Entity * slider = &manager->addEntity();
+	Entity * bg = &manager->addEntity();
+	bg->addComponent<TransformComponent>(posX+18, posY, 1, width-36, 4);
+	bg->addComponent<SpriteComponent>("slider_-", NULL, Vector2D(190, 4));
+	bg->addGroup(Game::G_Buttons);
+	slider->addComponent<TransformComponent>(posX, posY - 16, 1, 36, 36);
+	slider->addComponent<Slider>(bg, minV, maxV, width, color);
+	return slider;
+}
 
 Entity * AssetManager::CreateLabel(int posX, int posY, std::string text, SDL_Color color, std::string font)
 {
@@ -27,7 +60,6 @@ Entity * AssetManager::CreateLabel(int posX, int posY, std::string text, SDL_Col
 	label->addGroup(Game::G_Labels);
 	return label;
 }
-
 
 
 Entity * AssetManager::CreateBGPanel(int posX, int posY, int width, int height, ButtonColor color)
@@ -58,8 +90,10 @@ Entity * AssetManager::CreateBGPanel(int posX, int posY, int width, int height, 
 	return panel;
 }
 
-Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, std::string text, ButtonColor color, std::string Font) {
-	SDL_Color white = { 255, 255, 255, 255 };
+/*
+col - color of button text
+*/
+Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, std::string text, ButtonColor color, std::string Font, SDL_Color col) {
 	auto& button(manager->addEntity());
 	button.addComponent<TransformComponent>(posX, posY, 1, width, height);
 	switch (color)
@@ -88,7 +122,7 @@ Entity * AssetManager::CreateButton(int posX, int posY, int width, int height, s
 		break;
 	}
 	if (text != "");
-	button.addComponent<UILabel>(posX + 3, posY + 3, text, Font, white);
+	button.addComponent<UILabel>(posX + 3, posY + 3, text, Font, col);
 	button.addGroup(Game::G_Buttons);
 	return &button;
 }

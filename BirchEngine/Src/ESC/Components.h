@@ -16,3 +16,6 @@
 #include "Shadow.h"
 #include "TowerUpgradeComponent.h"
 #include "UpgradeMenu.h"
+#include "Slider.h"
+#include "MainMenu.h"
+#include "StatsUpd.h"

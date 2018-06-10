@@ -150,15 +150,6 @@ public:
 		groupedEntities[mGroup].emplace_back(mEntity);
 	}
 
-	/*void RemoveFromGroup(Entity* mEntity, Group mGroup) {
-		for (auto e : groupedEntities[mGroup]) {
-			if (e == mEntity) {
-				e = nullptr;
-				return;
-			}
-		}
-	}*/
-
 	std::vector<Entity*>& getGroup(Group mGroup)
 	{
 		return groupedEntities[mGroup];
