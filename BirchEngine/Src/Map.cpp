@@ -122,18 +122,6 @@ void Map::MapPreload(int sizeX, int sizeY)
 	} while (count < sizeY);
 	mapFile.close();
 	std::cout << "MAP loaded." << std::endl;
-	mapFile.open(Game::decorations);
-	count = 0;
-	std::string dcr = "";
-	do {
-		mapFile.get(tile);
-		if (tile != ' ' && tile != '\t')
-			dcr += tile;
-		if (tile == '\n')
-			count++;
-	} while (count < sizeY);
-	mapFile.close();
-	std::cout << "DEC loaded." << std::endl;
 
 	size_t pos = 0;
 	for (int i = 0; i < sizeY; i++)
@@ -149,7 +137,25 @@ void Map::MapPreload(int sizeX, int sizeY)
 			Game::AddTile(atoi(x.c_str()), j * 64, i * 64);
 		}
 	}
+}
 
+void Map::MapPostload(int sizeX, int sizeY)
+{
+	char tile;
+	std::fstream mapFile;
+	mapFile.open(Game::decorations);
+	int count = 0;
+	std::string dcr = "";
+	do {
+		mapFile.get(tile);
+		if (tile != ' ' && tile != '\t')
+			dcr += tile;
+		if (tile == '\n')
+			count++;
+	} while (count < sizeY);
+	mapFile.close();
+	std::cout << "DEC loaded." << std::endl;
+	size_t pos = 0;
 	pos = 0;
 	for (int i = 0; i < sizeY; i++)
 	{
@@ -161,9 +167,35 @@ void Map::MapPreload(int sizeX, int sizeY)
 				pos++;
 			}
 			pos++;
-			int k = atoi(x.c_str());
-			if(k != 175 && k != 176 && k != 177 && k != 178)
-			Game::AddDecoration(k, j * 64, i * 64);
+			Game::AddDecoration(atoi(x.c_str()), j * 64, i * 64);
+		}
+	}
+
+	mapFile.open(Game::trajectory);
+	count = 0;
+	std::string trj = "";
+	do {
+		mapFile.get(tile);
+		if (tile != ' ' && tile != '\t')
+			trj += tile;
+		if (tile == '\n')
+			count++;
+	} while (count < 1);
+	mapFile.close();
+	std::cout << "TRA loaded." << std::endl;
+	pos = 0;
+	for (int i = 0; i < Game::checkPointCount; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			std::string x;
+			while (isdigit(trj.at(pos))) {
+				x += trj.at(pos);
+				pos++;
+
+			}
+			pos++;
+			Game::trajectorys[i][j] = atoi(x.c_str());
 		}
 	}
 }

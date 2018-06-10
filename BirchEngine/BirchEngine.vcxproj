@@ -166,6 +166,7 @@
     <ClInclude Include="Src\ESC\Animation.h" />
     <ClInclude Include="Src\ESC\ColliderComponent.h" />
     <ClInclude Include="Src\Collision.h" />
+    <ClInclude Include="Src\ESC\EditLine.h" />
     <ClInclude Include="Src\ESC\EnemyDetectComponent.h" />
     <ClInclude Include="Src\ESC\MainMenu.h" />
     <ClInclude Include="Src\ESC\Slider.h" />

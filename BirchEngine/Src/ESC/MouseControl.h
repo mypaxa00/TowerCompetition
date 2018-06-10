@@ -9,10 +9,9 @@
 class MouseButtonComponent : public Component
 {
 public:
-
 	bool pressed1 = false;
 	bool pressed2 = false;
-	bool startPress = false;
+	bool selected = false;
 	bool see = false;
 
 	MouseButtonComponent(std::string pressed = "") : pressedS(pressed)
@@ -48,6 +47,11 @@ public:
 						sprite->setTex(pressedS);
 				}
 			}
+			else {
+				if (Game::event.button.button == SDL_BUTTON_LEFT) {
+					selected = false;
+				}
+			}
 			break;
 		case SDL_MOUSEBUTTONUP:
 			x = Game::event.button.x;
@@ -57,6 +61,7 @@ public:
 			if (startPress && see) {
 				if (Game::event.button.button == SDL_BUTTON_LEFT)
 					pressed1 = true;
+					selected = true;
 				if (Game::event.button.button == SDL_BUTTON_RIGHT)
 					pressed2 = true;
 			}
@@ -85,5 +90,5 @@ private:
 	int height;
 	std::string defaultS;
 	std::string pressedS;
-
+	bool startPress = false;
 };

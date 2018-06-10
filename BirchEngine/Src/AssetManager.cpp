@@ -41,7 +41,35 @@ void AssetManager::CreateStatsLabels()
 	umenu->addComponent<LabUpd>(healthLabel, moneyLabel, expLabel, monneypers);
 }
 
-Entity * AssetManager::CreateSlider(int posX, int posY, int width, int minV, int maxV, AssetManager::ButtonColor color)
+Entity * AssetManager::CreateEditLine(int posX, int posY, int width, int height, int max, ButtonColor color)
+{
+	Entity * line = &manager->addEntity();
+	line->addComponent<TransformComponent>(posX, posY, 1, width, height);
+	switch (color)
+	{
+	case AssetManager::B_Blue:
+		line->addComponent<SpriteComponent>("eline_blue", NULL, Vector2D(190, 49));
+		break;
+	case AssetManager::B_Green:
+		line->addComponent<SpriteComponent>("eline_green", NULL, Vector2D(190, 49));
+		break;
+	case AssetManager::B_White:
+		line->addComponent<SpriteComponent>("eline_white", NULL, Vector2D(191, 49));
+		break;
+	case AssetManager::B_Red:
+		line->addComponent<SpriteComponent>("eline_red", NULL, Vector2D(190, 49));
+		break;
+	case AssetManager::B_Yellow:
+		line->addComponent<SpriteComponent>("eline_yellow", NULL, Vector2D(190, 49));
+		break;
+	}
+	line->addComponent<EditLine>(Vector2D(posX, posY), Vector2D(width, height), max, color);
+	line->getComponent<EditLine>().AllowDot();
+	line->addGroup(Game::G_Buttons);
+	return line;
+}
+
+Entity * AssetManager::CreateSlider(int posX, int posY, int width, int minV, int maxV, ButtonColor color)
 {
 	Entity * slider = &manager->addEntity();
 	Entity * bg = &manager->addEntity();

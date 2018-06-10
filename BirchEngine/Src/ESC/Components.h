@@ -19,3 +19,4 @@
 #include "Slider.h"
 #include "MainMenu.h"
 #include "StatsUpd.h"
+#include "EditLine.h"

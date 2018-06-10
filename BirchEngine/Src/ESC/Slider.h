@@ -68,7 +68,7 @@ public:
 				pos->x = defPos.x + width;
 			if (pos->x < defPos.x)
 				pos->x = defPos.x;
-			value = min + (max - min) * ((pos->x - defPos.x) / width);
+			value = min + (max - min) * (1 - (pos->x - defPos.x) / width);
 		}
 	}
 

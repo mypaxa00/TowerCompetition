@@ -268,6 +268,11 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		assets->AddTexture("red_circle", "Assets/ui/red_circle.png");
 		assets->AddTexture("yellow_circle", "Assets/ui/yellow_circle.png");
 		assets->AddTexture("white_circle", "Assets/ui/grey_circle.png");
+		assets->AddTexture("eline_blue", "Assets/ui/blue_button13.png");
+		assets->AddTexture("eline_green", "Assets/ui/green_button13.png");
+		assets->AddTexture("eline_red", "Assets/ui/red_button10.png");
+		assets->AddTexture("eline_yellow", "Assets/ui/yellow_button13.png");
+		assets->AddTexture("eline_white", "Assets/ui/gray_button06.png");
 	}
 
 	//Enemies

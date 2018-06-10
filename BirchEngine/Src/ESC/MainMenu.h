@@ -15,7 +15,6 @@ public:
 
 	void init() override {
 		hud = &manager->addEntity();
-
 		hud->addComponent<TransformComponent>(-64, 1024, 1, 2048, 56);
 		hud->addComponent<SpriteComponent>("hud_bg", NULL, Vector2D(190, 49));
 		hud->addGroup(Game::G_Labels);
@@ -47,12 +46,17 @@ public:
 
 			hostmenu = true;
 		}
-		if (!hostmenu && JoinGame->isActive() == 1 && HostGame->getComponent<MouseButtonComponent>().pressed1) {
+		if (!hostmenu && JoinGame->isActive() == 1 && JoinGame->getComponent<MouseButtonComponent>().pressed1) {
 			HostGame->destroy();
 			JoinGame->destroy();
-			bg->destroy();
 			Exit->destroy();
-			return;
+			SDL_Color color = { 255, 255, 255, 255 };
+			start = Game::assets->CreateButton(850, 730, 160, 50, " Join", AssetManager::B_Yellow, "Future");
+			color = { 255, 255, 255, 255 }; IPAdrress = Game::assets->CreateLabel(800, 470, "IP Adrress", color, "Future");
+			color = { 255, 255, 255, 255 }; Port = Game::assets->CreateLabel(800, 600, "PORT", color, "Future");
+			ELineIP = Game::assets->CreateEditLine(780, 530, 340, 50, 15, AssetManager::B_Yellow);
+			ELinePort = Game::assets->CreateEditLine(780, 660, 340, 50, 5, AssetManager::B_Blue);
+			joinmenu = true;
 		}
 		if (!hostmenu && Exit->isActive() == 1 && Exit->getComponent<MouseButtonComponent>().pressed1) {
 			HostGame->destroy();
@@ -104,12 +108,8 @@ public:
 				ms->getComponent<UILabel>().upd();
 			}
 			if (start->getComponent<MouseButtonComponent>().pressed1) {
-				Map::LoadMap();
+				Map::MapPostload();
 				Game::assets->CreateStatsLabels();
-				HostGame->destroy();
-				JoinGame->destroy();
-				Exit->destroy();
-				hud->destroy();
 				map->destroy();
 				mapChangeL->destroy();
 				mapChangeR->destroy();
@@ -122,8 +122,12 @@ public:
 				start->destroy();
 				bg->destroy();
 				entity->destroy();
-				manager->refresh();
 				return;
+			}
+		}
+		if (joinmenu){
+			if (start->getComponent<MouseButtonComponent>().pressed1) {
+
 			}
 		}
 	}
@@ -136,6 +140,7 @@ private:
 	Entity * Exit;
 	Entity * hud;
 	Entity * bg;
+
 	int mapNum = 0;
 	Entity * map;
 	Entity * mapChangeL;
@@ -146,6 +151,13 @@ private:
 	Entity * expSlider;
 	Entity * ms;
 	Entity * msSlider;
+
+	Entity * IPAdrress;
+	Entity * Port;
+	Entity * ELineIP;
+	Entity * ELinePort;
+
 	Entity * start;
 	bool hostmenu = false;
+	bool joinmenu = false;
 };
