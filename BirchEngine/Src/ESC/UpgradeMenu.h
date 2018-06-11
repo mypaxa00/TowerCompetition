@@ -373,7 +373,7 @@ private:
 					updatePlaneBG("100$", AssetManager::B_Green);
 				}
 				if (planeBG->getComponent<MouseButtonComponent>().pressed1) {
-					Game::assets->CreateEnemy(AssetManager::E_Plane1);
+					Game::command = Game::C_SEND_P1;
 					Game::money -= 100;
 				}
 			}
@@ -389,7 +389,7 @@ private:
 					updatePlaneBG("200$", AssetManager::B_Green);
 				}
 				if (planeBG->getComponent<MouseButtonComponent>().pressed1) {
-					Game::assets->CreateEnemy(AssetManager::E_Plane2);
+					Game::command = Game::C_SEND_P2;
 					Game::money -= 200;
 				}
 			}
@@ -443,7 +443,7 @@ private:
 					updateSoldierBG("50$", AssetManager::B_Green);
 				}
 				if (soldierBG->getComponent<MouseButtonComponent>().pressed1) {
-					Game::assets->CreateEnemy(AssetManager::E_Soldier1);
+					Game::command = Game::C_SEND_S1;
 					Game::money -= 50;
 				}
 			}
@@ -495,7 +495,7 @@ private:
 					updateSoldierBG("60$", AssetManager::B_Green);
 				}
 				if (soldierBG->getComponent<MouseButtonComponent>().pressed1) {
-					Game::assets->CreateEnemy(AssetManager::E_Soldier2);
+					Game::command = Game::C_SEND_S2;
 					Game::money -= 60;
 				}
 			}
@@ -547,7 +547,7 @@ private:
 					updateSoldierBG("75$", AssetManager::B_Green);
 				}
 				if (soldierBG->getComponent<MouseButtonComponent>().pressed1) {
-					Game::assets->CreateEnemy(AssetManager::E_Soldier3);
+					Game::command = Game::C_SEND_S3;
 					Game::money -= 75;
 				}
 			}
@@ -564,7 +564,7 @@ private:
 					updateSoldierBG("100$", AssetManager::B_Green);
 				}
 				if (soldierBG->getComponent<MouseButtonComponent>().pressed1) {
-					Game::assets->CreateEnemy(AssetManager::E_Soldier4);
+					Game::command = Game::C_SEND_S4;
 					Game::money -= 100;
 				}
 			}

@@ -6,12 +6,13 @@
 #include "Components.h"
 #include <SDL.h>
 #include <sstream>
+#include "EditLine.h"
 
 class MainMenu : public Component
 {
 public:
 	MainMenu(Manager * man) : manager(man) {}
-	~MainMenu(){}
+	~MainMenu() {}
 
 	void init() override {
 		hud = &manager->addEntity();
@@ -26,7 +27,7 @@ public:
 	}
 
 	void update() override {
-		if (!hostmenu && HostGame->isActive() == 1 && HostGame->getComponent<MouseButtonComponent>().pressed1) {
+		if (mainmenue && HostGame->isActive() == 1 && HostGame->getComponent<MouseButtonComponent>().pressed1) {
 			HostGame->destroy();
 			JoinGame->destroy();
 			Exit->destroy();
@@ -43,22 +44,22 @@ public:
 			moneySlider = Game::assets->CreateSlider(800, 570, 300, 150, 10000, AssetManager::B_Yellow);
 			expSlider = Game::assets->CreateSlider(800, 640, 300, 0, 1500, AssetManager::B_Blue);
 			msSlider = Game::assets->CreateSlider(800, 710, 300, 0, 100, AssetManager::B_Red);
-
+			mainmenue = false;
 			hostmenu = true;
 		}
-		if (!hostmenu && JoinGame->isActive() == 1 && JoinGame->getComponent<MouseButtonComponent>().pressed1) {
+		if (mainmenue && JoinGame->isActive() == 1 && JoinGame->getComponent<MouseButtonComponent>().pressed1) {
 			HostGame->destroy();
 			JoinGame->destroy();
 			Exit->destroy();
 			SDL_Color color = { 255, 255, 255, 255 };
 			start = Game::assets->CreateButton(850, 730, 160, 50, " Join", AssetManager::B_Yellow, "Future");
 			color = { 255, 255, 255, 255 }; IPAdrress = Game::assets->CreateLabel(800, 470, "IP Adrress", color, "Future");
-			color = { 255, 255, 255, 255 }; Port = Game::assets->CreateLabel(800, 600, "PORT", color, "Future");
 			ELineIP = Game::assets->CreateEditLine(780, 530, 340, 50, 15, AssetManager::B_Yellow);
-			ELinePort = Game::assets->CreateEditLine(780, 660, 340, 50, 5, AssetManager::B_Blue);
+			mainmenue = false;
 			joinmenu = true;
 		}
-		if (!hostmenu && Exit->isActive() == 1 && Exit->getComponent<MouseButtonComponent>().pressed1) {
+		if (mainmenue && Exit->isActive() == 1 && Exit->getComponent<MouseButtonComponent>().pressed1) {
+			mainmenue = false;
 			HostGame->destroy();
 			JoinGame->destroy();
 			bg->destroy();
@@ -78,7 +79,7 @@ public:
 			}
 			if (mapChangeR->getComponent<MouseButtonComponent>().pressed1) {
 				mapNum--;
-				if(mapNum < 0)
+				if (mapNum < 0)
 					mapNum += 5;
 				std::stringstream ss;
 				ss << "Map " << mapNum + 1;
@@ -109,7 +110,7 @@ public:
 			}
 			if (start->getComponent<MouseButtonComponent>().pressed1) {
 				Map::MapPostload();
-				Game::assets->CreateStatsLabels();
+				Game::type = Game::S_Server;
 				map->destroy();
 				mapChangeL->destroy();
 				mapChangeR->destroy();
@@ -125,9 +126,16 @@ public:
 				return;
 			}
 		}
-		if (joinmenu){
+		if (joinmenu) {
 			if (start->getComponent<MouseButtonComponent>().pressed1) {
-
+				Game::type = Game::S_Client;
+				Game::IP = ELineIP->getComponent<EditLine>().text;
+				IPAdrress->destroy();
+				ELineIP->destroy();
+				start->destroy();
+				bg->destroy();
+				entity->destroy();
+				return;
 			}
 		}
 	}
@@ -153,11 +161,10 @@ private:
 	Entity * msSlider;
 
 	Entity * IPAdrress;
-	Entity * Port;
 	Entity * ELineIP;
-	Entity * ELinePort;
 
 	Entity * start;
 	bool hostmenu = false;
 	bool joinmenu = false;
+	bool mainmenue = true;
 };

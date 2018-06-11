@@ -3,7 +3,6 @@
 #include "Game.h"
 
 
-
 AssetManager::AssetManager(Manager* man) : manager(man)
 {
 }
@@ -11,6 +10,11 @@ AssetManager::AssetManager(Manager* man) : manager(man)
 
 AssetManager::~AssetManager()
 {
+}
+
+void gameserver() {
+	
+	std::cout << "Thread created" << std::endl;
 }
 
 void AssetManager::CreateStatsLabels()

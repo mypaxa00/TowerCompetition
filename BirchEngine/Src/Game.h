@@ -2,10 +2,12 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_net.h>
 #include <iostream>
 #include <vector>
 #include <string>
 #include "ESC/ESC.h"
+
 
 
 class AssetManager;
@@ -33,6 +35,14 @@ public:
 	static AssetManager * assets;
 	static SDL_Event event;
 	static bool isRunning;
+	
+	static TCPsocket server;
+	static TCPsocket client;
+
+	static int type;
+	static std::string IP;
+	static int command;
+
 	enum groupLabels : std::size_t {
 		G_Map,
 		G_Decorations,
@@ -47,6 +57,22 @@ public:
 		G_Buttons,
 		G_BGs
 	};
+	enum StartAs : int
+	{
+		S_Server,
+		S_Client
+	};
+	enum Commands : int 
+	{
+		C_NONE,
+		C_SEND_S1,
+		C_SEND_S2,
+		C_SEND_S3,
+		C_SEND_S4,
+		C_SEND_P1,
+		C_SEND_P2,
+		C_WIN
+	};
 
 	static int health;
 	static float money;
@@ -57,7 +83,9 @@ public:
 	static std::string trajectory;
 	static int trajectorys[32][2];
 	static int checkPointCount;
-
+	
 private:
+	int prevSpawnTime;
+	bool connected = false;
 	SDL_Window *window;
 };

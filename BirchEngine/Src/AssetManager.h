@@ -6,6 +6,8 @@
 #include "Vector2D.h"
 #include "ESC/ESC.h"
 #include <SDL_ttf.h>
+//#include <mutex>
+#include <thread>
 
 class AssetManager
 {
@@ -49,6 +51,10 @@ public:
 
 	AssetManager(Manager * man);
 	~AssetManager();
+
+	void CreateServer();
+
+	void CreateClient(std::string ip, std::string port);
 
 	void CreateStatsLabels();
 

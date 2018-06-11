@@ -155,8 +155,8 @@
     <ClCompile Include="Src\Collision.cpp" />
     <ClCompile Include="Src\ESC\ESC.cpp" />
     <ClCompile Include="Src\ESC\Health.cpp" />
-    <ClCompile Include="Src\Map.cpp" />
     <ClCompile Include="Src\Game.cpp" />
+    <ClCompile Include="Src\Map.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\TextureManager.cpp" />
     <ClCompile Include="Src\Vector2D.cpp" />

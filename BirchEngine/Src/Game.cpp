@@ -5,6 +5,8 @@
 #include "Map.h"
 #include "Collision.h"
 #include <sstream>
+#include <string>
+#include <ctype.h>
 
 Manager manager;
 
@@ -24,6 +26,11 @@ std::string Game::decorations = "Assets/maps/dec1.map";
 std::string Game::trajectory = "Assets/maps/tra1.map";
 int Game::trajectorys[32][2];
 int Game::checkPointCount = 7;
+int Game::type = -1;
+TCPsocket Game::server = NULL;
+TCPsocket Game::client = NULL;
+std::string Game::IP = "";
+int Game::command = 0;
 
 auto& mainMenu(manager.addEntity());
 
@@ -36,13 +43,13 @@ Game::~Game()
 void Game::init(const char* title, int width, int height, bool fullscreen)
 {
 	int flags = SDL_WINDOW_RESIZABLE;
-	
+
 	if (fullscreen)
 		flags = SDL_WINDOW_FULLSCREEN;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
-		window = SDL_CreateWindow(title, 100, 100, width, height, flags);
+		window = SDL_CreateWindow(title, -5, -5, width, height, flags);
 		renderer = SDL_CreateRenderer(window, -1, 0);
 		if (renderer)
 		{
@@ -58,7 +65,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	//Loading 
 	//Map
-	if(true){
+	if (true) {
 		assets->AddTexture("0", "Assets/tiles/64/environment/m_dirt_tile.png");
 		assets->AddTexture("1", "Assets/tiles/64/environment/m_grass_tile.png");
 		assets->AddTexture("2", "Assets/tiles/64/environment/m_road_tile.png");
@@ -239,7 +246,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		assets->AddTexture("tower_place_sand", "Assets/tiles/64/environment/towerDefense_tile114.png");
 		assets->AddTexture("tower_place_road", "Assets/tiles/64/environment/towerDefense_tile091.png");
 	}
-		
+
 	//UI
 	if (true) {
 		assets->AddTexture("selection", "Assets/tiles/64/selection.png");
@@ -288,7 +295,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	}
 
 	//Tower
-	if(true){
+	if (true) {
 		assets->AddTexture("RocketLauncher1", "Assets/tiles/128/towers/towerDefense_tile204.png");
 		assets->AddTexture("RocketLauncher2", "Assets/tiles/128/towers/towerDefense_tile205.png");
 		assets->AddTexture("RocketLauncher3", "Assets/tiles/128/towers/towerDefense_tile206.png");
@@ -302,9 +309,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		assets->AddTexture("bullet1", "Assets/tiles/64/towers/bullet1_tile.png");
 		assets->AddTexture("bullet2", "Assets/tiles/64/towers/bullet2_tile.png");
 		assets->AddTexture("bullet3", "Assets/tiles/64/towers/bullet3_tile.png");
-		assets->AddTexture("bullet4", "Assets/tiles/64/towers/bullet4_tile.png");	
+		assets->AddTexture("bullet4", "Assets/tiles/64/towers/bullet4_tile.png");
 	}
-	
+
 	//LoadingFonts
 	{
 		assets->AddFont("$", "Assets/Fonts/Stamperbrk.ttf", 20);
@@ -337,7 +344,7 @@ void Game::handleEvents()
 
 	switch (event.type)
 	{
-	case SDL_QUIT :
+	case SDL_QUIT:
 		isRunning = false;
 		break;
 	default:
@@ -384,14 +391,221 @@ void Game::handleEvents()
 }
 
 void Game::update()
-{	
-	/*int spawnDelay = static_cast<int>((SDL_GetTicks() / 5000) % 2);
-	if (prevSpawnTime != spawnDelay) {
-		assets->CreateEnemy();
-		prevSpawnTime = spawnDelay;
-	}*/
+{
+	switch (type)
+	{
+	case S_Server: {
+		if (!connected) {
+			IPaddress ip;
+			SDLNet_ResolveHost(&ip, NULL, 4313);
+			Game::server = SDLNet_TCP_Open(&ip);
 
-	
+			while (true) {
+				std::cout << "waiting" << std::endl;
+				Game::client = SDLNet_TCP_Accept(Game::server);
+				if (Game::client) {
+					std::stringstream ss;
+					ss << "1," << money << "," << exp << "," << moneySpeed << "|\n" << std::endl;
+					SDLNet_TCP_Send(Game::client, ss.str().c_str(), ss.str().length() + 1);
+					Map::MapPostload();
+					assets->CreateStatsLabels();
+					connected = true;
+					break;
+				}
+			}
+		}
+		else {
+			char sRecv[2];
+			SDLNet_TCP_Recv(Game::client, sRecv, 2);
+			int sCmd = atoi(sRecv);
+			switch (sCmd)
+			{
+			case C_NONE:
+				break;
+			case C_SEND_S1:
+				sCmd = C_NONE;
+				assets->CreateEnemy(AssetManager::E_Soldier1);
+				break;
+			case C_SEND_S2:
+				sCmd = C_NONE;
+				assets->CreateEnemy(AssetManager::E_Soldier2);
+				break;
+			case C_SEND_S3:
+				sCmd = C_NONE;
+				assets->CreateEnemy(AssetManager::E_Soldier3);
+				break;
+			case C_SEND_S4:
+				sCmd = C_NONE;
+				assets->CreateEnemy(AssetManager::E_Soldier4);
+				break;
+			case C_SEND_P1:
+				sCmd = C_NONE;
+				assets->CreateEnemy(AssetManager::E_Plane1);
+				break;
+			case C_SEND_P2:
+				sCmd = C_NONE;
+				assets->CreateEnemy(AssetManager::E_Plane2);
+				break;
+			case C_WIN:
+				sCmd = C_NONE;
+				//TODO WIN
+				break;
+			}
+			switch (command)
+			{
+			case C_NONE:
+				SDLNet_TCP_Send(client, "0", 2);
+				break;
+			case C_SEND_S1:
+				command = C_NONE;
+				SDLNet_TCP_Send(client, "1", 2);
+				break;
+			case C_SEND_S2:
+				command = C_NONE;
+				SDLNet_TCP_Send(client, "2", 2);
+				break;
+			case C_SEND_S3:
+				command = C_NONE;
+				SDLNet_TCP_Send(client, "3", 2);
+				break;
+			case C_SEND_S4:
+				command = C_NONE;
+				SDLNet_TCP_Send(client, "4", 2);
+				break;
+			case C_SEND_P1:
+				command = C_NONE;
+				SDLNet_TCP_Send(client, "5", 2);
+				break;
+			case C_SEND_P2:
+				command = C_NONE;
+				SDLNet_TCP_Send(client, "6", 2);
+				break;
+			case C_WIN:
+				command = C_NONE;
+				SDLNet_TCP_Send(client, "7", 2);
+				break;
+			}
+		}
+		break;
+	}
+	case S_Client: {
+		if (!connected) {
+			connected = true;
+			IPaddress ip;
+			SDLNet_ResolveHost(&ip, Game::IP.c_str(), 4313);
+			Game::client = SDLNet_TCP_Open(&ip);
+			char text[20];
+			SDLNet_TCP_Recv(Game::client, text, 20);
+			int c = 0;
+			int cur = 0;
+			std::string txt;
+			while (cur < 4) {
+				txt = "";
+				while (isdigit(text[c])) {
+					txt += text[c];
+					c++;
+				}
+				switch (cur)
+				{
+				case 0:
+					//TODO work with map
+					cur++;
+					c++;
+					break;
+				case 1:
+					Game::money = atoi(txt.c_str());
+					cur++;
+					c++;
+					break;
+				case 2:
+					Game::exp = atoi(txt.c_str());
+					cur++;
+					c++;
+					break;
+				case 3:
+					Game::moneySpeed = atoi(txt.c_str());
+					cur++;
+					c++;
+					break;
+				}
+			}
+			Map::MapPostload();
+			Game::assets->CreateStatsLabels();
+		}
+		switch (Game::command)
+		{
+		case C_NONE:
+			SDLNet_TCP_Send(Game::client, "0", 2);
+			break;
+		case C_SEND_S1:
+			Game::command = C_NONE;
+			SDLNet_TCP_Send(client, "1", 2);
+			break;
+		case C_SEND_S2:
+			Game::command = C_NONE;
+			SDLNet_TCP_Send(client, "2", 2);
+			break;
+		case C_SEND_S3:
+			Game::command = C_NONE;
+			SDLNet_TCP_Send(client, "3", 2);
+			break;
+		case C_SEND_S4:
+			Game::command = C_NONE;
+			SDLNet_TCP_Send(client, "4", 2);
+			break;
+		case C_SEND_P1:
+			Game::command = C_NONE;
+			SDLNet_TCP_Send(client, "5", 2);
+			break;
+		case C_SEND_P2:
+			Game::command = C_NONE;
+			SDLNet_TCP_Send(client, "6", 2);
+			break;
+		case C_WIN:
+			Game::command = C_NONE;
+			SDLNet_TCP_Send(client, "7", 2);
+			break;
+		}
+		char cRecv[2];
+		SDLNet_TCP_Recv(Game::client, cRecv, 2);
+		int cCmd = atoi(cRecv);
+		switch (cCmd)
+		{
+		case C_NONE:
+			break;
+		case C_SEND_S1:
+			cCmd = C_NONE;
+			assets->CreateEnemy(AssetManager::E_Soldier1);
+			break;
+		case C_SEND_S2:
+			cCmd = C_NONE;
+			assets->CreateEnemy(AssetManager::E_Soldier2);
+			break;
+		case C_SEND_S3:
+			cCmd = C_NONE;
+			assets->CreateEnemy(AssetManager::E_Soldier3);
+			break;
+		case C_SEND_S4:
+			cCmd = C_NONE;
+			assets->CreateEnemy(AssetManager::E_Soldier4);
+			break;
+		case C_SEND_P1:
+			cCmd = C_NONE;
+			assets->CreateEnemy(AssetManager::E_Plane1);
+			break;
+		case C_SEND_P2:
+			cCmd = C_NONE;
+			assets->CreateEnemy(AssetManager::E_Plane2);
+			break;
+		case C_WIN:
+			cCmd = C_NONE;
+			//TODO WIN
+			break;
+		}
+		break;
+	}
+	}
+
 	manager.refresh();
 	manager.update();
 }
