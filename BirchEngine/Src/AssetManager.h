@@ -52,10 +52,6 @@ public:
 	AssetManager(Manager * man);
 	~AssetManager();
 
-	void CreateServer();
-
-	void CreateClient(std::string ip, std::string port);
-
 	void CreateStatsLabels();
 
 	Entity * CreateEditLine(int posX, int posY, int width, int height, int max, ButtonColor color = B_Blue);

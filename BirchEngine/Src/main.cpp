@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	SDLNet_Init();
 
 	game = new Game();
-	game->init("GameWindow", 1920, 1080, false);
+	game->init("GameWindow", 1920, 1080, true);
 	while (game->running())
 	{
 		frameStart = SDL_GetTicks();
